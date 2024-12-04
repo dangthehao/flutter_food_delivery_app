@@ -22,4 +22,11 @@ class AppWidget{
         fontWeight: FontWeight.w500,
         fontFamily: 'Poppins');
   }
+  static TextStyle semiBooldTextFeildStyle(){
+    return TextStyle(
+        color: Colors.black,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Poppins');
+  }
 }

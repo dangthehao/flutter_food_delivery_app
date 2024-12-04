@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app_flutter/pages/details.dart';
 import 'package:food_delivery_app_flutter/widget/widget_support.dart';
 
 class Home extends StatefulWidget {
@@ -9,11 +10,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool icecream = false, pizza = false, salad = false, burger = false;
+  bool icecream = false,
+      pizza = false,
+      salad = false,
+      burger = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white70,
       body: Container(
         margin: EdgeInsets.only(top: 50.0, left: 20.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -56,44 +61,51 @@ class _HomeState extends State<Home> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                Container(
-                  margin: EdgeInsets.all(5),
-                  child: Material(
-                    elevation: 5.0,
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      padding: EdgeInsets.all(14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(80),
-                            child: Image.asset(
-                              "images/beefsteak.jpeg",
-                              height: 150,
-                              width: 160,
-                              fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Details())
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(5),
+                    child: Material(
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        padding: EdgeInsets.all(14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(80),
+                              child: Image.asset(
+                                "images/beefsteak.jpeg",
+                                height: 150,
+                                width: 160,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Veggie TaCo Hash",
-                            style: AppWidget.semiBooldTextFeildStyle(),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "Fresh and Healthy",
-                            style: AppWidget.LightTextFeildStyle(),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "\$25",
-                            style: AppWidget.semiBooldTextFeildStyle(),
-                          ),
-                        ],
+                            Text(
+                              "Veggie TaCo Hash",
+                              style: AppWidget.semiBooldTextFeildStyle(),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "Fresh and Healthy",
+                              style: AppWidget.LightTextFeildStyle(),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "\$25",
+                              style: AppWidget.semiBooldTextFeildStyle(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -153,7 +165,7 @@ class _HomeState extends State<Home> {
               elevation: 5.0,
               borderRadius: BorderRadius.circular(20),
               child: Container(
-                padding: EdgeInsets.all(5) ,
+                padding: EdgeInsets.all(5),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -169,7 +181,10 @@ class _HomeState extends State<Home> {
                     Column(
                       children: [
                         Container(
-                          width: MediaQuery.of(context).size.width/2,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width / 2,
                           child: Text(
                             "Mediterranean Chickpea Salad",
                             style: AppWidget.semiBooldTextFeildStyle(),
@@ -177,7 +192,10 @@ class _HomeState extends State<Home> {
                         ),
                         SizedBox(height: 5,),
                         Container(
-                          width: MediaQuery.of(context).size.width/2,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width / 2,
                           child: Text(
                             "Honey good cheese",
                             style: AppWidget.LightTextFeildStyle(),
@@ -186,7 +204,10 @@ class _HomeState extends State<Home> {
                         ),
                         SizedBox(height: 5,),
                         Container(
-                          width: MediaQuery.of(context).size.width/2,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width / 2,
                           child: Text(
                             "\$28",
                             style: AppWidget.semiBooldTextFeildStyle(),
@@ -226,12 +247,12 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: icecream
                   ? [
-                      BoxShadow(
-                        color: Colors.yellow.withOpacity(0.6),
-                        blurRadius: 15,
-                        spreadRadius: 5,
-                      )
-                    ]
+                BoxShadow(
+                  color: Colors.yellow.withOpacity(0.6),
+                  blurRadius: 15,
+                  spreadRadius: 5,
+                )
+              ]
                   : [],
             ),
             child: Material(
@@ -265,12 +286,12 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: burger
                   ? [
-                      BoxShadow(
-                        color: Colors.yellow.withOpacity(0.6),
-                        blurRadius: 15,
-                        spreadRadius: 5,
-                      )
-                    ]
+                BoxShadow(
+                  color: Colors.yellow.withOpacity(0.6),
+                  blurRadius: 15,
+                  spreadRadius: 5,
+                )
+              ]
                   : [],
             ),
             child: Material(
@@ -304,12 +325,12 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: pizza
                   ? [
-                      BoxShadow(
-                        color: Colors.yellow.withOpacity(0.6),
-                        blurRadius: 15,
-                        spreadRadius: 5,
-                      )
-                    ]
+                BoxShadow(
+                  color: Colors.yellow.withOpacity(0.6),
+                  blurRadius: 15,
+                  spreadRadius: 5,
+                )
+              ]
                   : [],
             ),
             child: Material(
@@ -343,12 +364,12 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: salad
                   ? [
-                      BoxShadow(
-                        color: Colors.yellow.withOpacity(0.6),
-                        blurRadius: 15,
-                        spreadRadius: 5,
-                      )
-                    ]
+                BoxShadow(
+                  color: Colors.yellow.withOpacity(0.6),
+                  blurRadius: 15,
+                  spreadRadius: 5,
+                )
+              ]
                   : [],
             ),
             child: Material(
