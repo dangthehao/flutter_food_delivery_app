@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app_flutter/pages/bottomnav.dart';
 import 'package:food_delivery_app_flutter/pages/home.dart';
 
 void main() {
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-
-      home: Home(),
+      debugShowCheckedModeBanner: false,
+      home: BottomNav(),
     );
   }
 }
