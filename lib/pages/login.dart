@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app_flutter/pages/forgotpassword.dart';
 import 'package:food_delivery_app_flutter/pages/signup.dart';
 import 'package:food_delivery_app_flutter/widget/widget_support.dart';
 
@@ -140,7 +141,7 @@ class _LoginState extends State<Login> {
                                 decoration: InputDecoration(
                                     hintText: 'Email',
                                     hintStyle:
-                                        AppWidget.semiBooldTextFeildStyle(),
+                                        AppWidget.LightTextFeildStyle(),
                                     prefixIcon: Icon(Icons.email_outlined)),
                               ),
                               TextFormField(
@@ -156,18 +157,23 @@ class _LoginState extends State<Login> {
                                 decoration: InputDecoration(
                                     hintText: 'Password',
                                     hintStyle:
-                                        AppWidget.semiBooldTextFeildStyle(),
+                                        AppWidget.LightTextFeildStyle(),
                                     prefixIcon: Icon(Icons.password_outlined)),
                               ),
                               SizedBox(
                                 height: 20,
                               ),
-                              Container(
-                                  alignment: Alignment.topRight,
-                                  child: Text(
-                                    'Forgot Password ?',
-                                    style: AppWidget.LightTextFeildStyle(),
-                                  )),
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotPassword()));
+                                },
+                                child: Container(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      'Forgot Password ?',
+                                      style: AppWidget.LightTextFeildStyle(),
+                                    )),
+                              ),
                               SizedBox(
                                 height: 90,
                               ),

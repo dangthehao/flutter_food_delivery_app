@@ -1,0 +1,4 @@
+import 'package:flutter/material.dart';
+
+String publishableKey="pk_test_51QVhaj2KC9yoffNIVj7cyv61l3j8XX1FoSP1jXnp8j2mRR2E54ztCOkSvb9RLHywj1XumrOSih7ZiEjYJviTP3EM00HvsFoIaa";
+String secretKey="sk_test_51QVhaj2KC9yoffNILMTcauHsFN25McoHplg9NRrS4Pn8Fs3VSQwQTwV51He8xRXE3aE8wZpkrlFJ0bFBLQ9jrU1b00dWIHx7w6";

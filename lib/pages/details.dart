@@ -35,10 +35,10 @@ class _DetailsState extends State<Details> {
             ClipRRect(
                 borderRadius: BorderRadius.circular(180),
                 child: Image.asset(
-                  'images/beefsteak.jpeg',
+                  'images/salad12.png',
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 2.5,
-                  fit: BoxFit.fill,
+                  height: MediaQuery.of(context).size.height / 2.7,
+                  fit: BoxFit.cover,
                 )),
             SizedBox(
               height: 10,
