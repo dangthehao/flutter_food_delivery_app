@@ -3,6 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app_flutter/pages/bottomnav.dart';
 import 'package:food_delivery_app_flutter/pages/login.dart';
+import 'package:food_delivery_app_flutter/service/database.dart';
+import 'package:food_delivery_app_flutter/service/shared_pref.dart';
+import 'package:random_string/random_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widget/widget_support.dart';
 
@@ -32,6 +36,20 @@ final _formkey = GlobalKey<FormState>();
           backgroundColor: Colors.red,
             content: Text("Registered Succesfully",
                 style: TextStyle(fontSize: 15))));
+        String Id = randomAlphaNumeric(10);
+    Map<String, dynamic> addUserinfo={
+      "Name": namecontroller.text,
+      "Email": emailcontroller.text,
+      "Wallet": "0",
+      "Id":Id,
+    };
+  await DatabaseMethods().addUserDetail(addUserinfo, Id);
+  await SharedPreferencesHelper().saveUserName(namecontroller.text);
+  await SharedPreferencesHelper().saveUserEmail(emailcontroller.text);
+  await SharedPreferencesHelper().saveUserWallet('0');
+  await SharedPreferencesHelper().saveUserId(Id);
+
+
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> BottomNav()));
         if (password != confirmpassword) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
