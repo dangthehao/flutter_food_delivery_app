@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:food_delivery_app_flutter/admin/add_food.dart';
 import 'package:food_delivery_app_flutter/pages/bottomnav.dart';
 import 'package:food_delivery_app_flutter/pages/forgotpassword.dart';
 import 'package:food_delivery_app_flutter/pages/home.dart';
@@ -9,6 +10,9 @@ import 'package:food_delivery_app_flutter/pages/onboard.dart';
 import 'package:food_delivery_app_flutter/pages/signup.dart';
 import 'package:food_delivery_app_flutter/pages/wallet.dart';
 import 'package:food_delivery_app_flutter/widget/app_constants.dart';
+
+import 'admin/admin_login.dart';
+import 'admin/home_admin.dart';
 
 void main() async {
 
@@ -27,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: BottomNav(),
+      home: Home(),
     );
   }
 }

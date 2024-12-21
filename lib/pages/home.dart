@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app_flutter/pages/details.dart';
+import 'package:food_delivery_app_flutter/service/database.dart';
 import 'package:food_delivery_app_flutter/widget/widget_support.dart';
 
 class Home extends StatefulWidget {
@@ -15,16 +17,97 @@ class _HomeState extends State<Home> {
       salad = false,
       burger = false;
 
+
+  Stream? fooditemStream;
+
+  ontheload() async {
+    fooditemStream = await DatabaseMethods().getFoodItem("Pizza");
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    ontheload();
+    super.initState();
+  }
+
+  Widget allItems() {
+    return StreamBuilder(
+        stream: fooditemStream,
+        builder: (context, AsyncSnapshot snapshot) {
+          return snapshot.hasData ? ListView.builder(
+            padding: EdgeInsets.zero,
+              itemCount: snapshot.data.docs.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+          DocumentSnapshot ds = snapshot.data.docs[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Details())
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.all(5),
+              child: Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                         ds["Image"],
+                          height: 145,
+                          width: 350,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      Text(
+                        ds["Name"],
+                        style: AppWidget.semiBooldTextFeildStyle(),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        ds["Detail"],
+                        style: AppWidget.LightTextFeildStyle(),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "\$${ds["Price"]}",
+                        style: AppWidget.semiBooldTextFeildStyle(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+              }):CircularProgressIndicator();
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.white,
       body: Container(
         margin: EdgeInsets.only(top: 50.0, left: 20.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
-              'Hello DOMIXI GAMING',
+              'Hello DOMIXI ',
               style: AppWidget.boldTextFeildStyle(),
             ),
             Container(
@@ -57,107 +140,9 @@ class _HomeState extends State<Home> {
           ),
           showItem(),
           SizedBox(height: 30),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Details())
-                    );
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(5),
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        padding: EdgeInsets.all(14),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(80),
-                              child: Image.asset(
-                                "images/salad12.png",
-                                height: 150,
-                                width: 160,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Text(
-                              "Veggie TaCo Hash",
-                              style: AppWidget.semiBooldTextFeildStyle(),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Fresh and Healthy",
-                              style: AppWidget.LightTextFeildStyle(),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "\$25",
-                              style: AppWidget.semiBooldTextFeildStyle(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Container(
-                  margin: EdgeInsets.all(4),
-                  child: Material(
-                    elevation: 5.0,
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      padding: EdgeInsets.all(14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image.asset(
-                              "images/salad12.png",
-                              height: 150,
-                              width: 160,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Text(
-                            "Mix Veg Saled",
-                            style: AppWidget.semiBooldTextFeildStyle(),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "Spicy with Onion",
-                            style: AppWidget.LightTextFeildStyle(),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "\$28",
-                            style: AppWidget.semiBooldTextFeildStyle(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+         Container(
+            height: 270,
+             child: allItems()),
           SizedBox(height: 30),
           Container(
             margin: EdgeInsets.only(right: 20),
@@ -383,6 +368,18 @@ class _HomeState extends State<Home> {
                   fit: BoxFit.cover,
                 ),
               ),
+            ),
+          ),
+        ),
+        Material(
+          elevation: 5.0,
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            child: Image.asset(
+              "images/salad3.jpg",
+              height: 40,
+              width: 40,
+              fit: BoxFit.cover,
             ),
           ),
         ),
