@@ -40,6 +40,25 @@ class DatabaseMethods {
       throw e;
     }
   }
-
+  Future addFoodToCart(Map<String, dynamic> userInfoMap, String id) async {
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id).collection("Cart")
+        .add(userInfoMap);
+  }
+  Future<Stream<QuerySnapshot>> getFoodCart(String id) async {
+    try {
+      return FirebaseFirestore.instance.collection("users").doc(id).collection("Cart").snapshots();
+    } catch (e) {
+      print("Error retrieving food items: $e");
+      throw e;
+    }
+  }
+  UpdateUserCart(String id, String amount) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(id)
+        .update({"Wallet": amount});
+  }
 
 }

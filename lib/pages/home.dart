@@ -12,19 +12,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool icecream = false,
-      pizza = false,
-      salad = false,
-      burger = false;
-
+  bool icecream = false, pizza = false, salad = false, burger = false;
 
   Stream? fooditemStream;
 
   ontheload() async {
     fooditemStream = await DatabaseMethods().getFoodItem("Pizza");
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -33,68 +27,170 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  Widget allItemsVertically() {
+    return StreamBuilder(
+        stream: fooditemStream,
+        builder: (context, AsyncSnapshot snapshot) {
+          return snapshot.hasData
+              ? ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot ds = snapshot.data.docs[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Details(
+                                      detail: ds["Detail"],
+                                      name: ds["Name"],
+                                      price: ds["Price"],
+                                      image: ds["Image"],
+                                    )));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 20, bottom: 20),
+                        child: Material(
+                          elevation: 5.0,
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(89),
+                                    child: Image.network(
+                                      ds["Image"],
+                                      height: 120,
+                                      width: 120,
+                                      fit: BoxFit.cover,
+                                    )),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  children: [
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      child: Text(
+                                        ds["Name"],
+                                        style:
+                                            AppWidget.semiBooldTextFeildStyle(),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      child: Text(
+                                        "Honey good cheese",
+                                        style: AppWidget.LightTextFeildStyle(),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      child: Text(
+                                        "\$${ds["Price"]}",
+                                        style:
+                                            AppWidget.semiBooldTextFeildStyle(),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  })
+              : CircularProgressIndicator();
+        });
+  }
+
   Widget allItems() {
     return StreamBuilder(
         stream: fooditemStream,
         builder: (context, AsyncSnapshot snapshot) {
-          return snapshot.hasData ? ListView.builder(
-            padding: EdgeInsets.zero,
-              itemCount: snapshot.data.docs.length,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-          DocumentSnapshot ds = snapshot.data.docs[index];
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Details())
-              );
-            },
-            child: Container(
-              margin: EdgeInsets.all(5),
-              child: Material(
-                elevation: 5.0,
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                         ds["Image"],
-                          height: 145,
-                          width: 350,
-                          fit: BoxFit.fill,
+          return snapshot.hasData
+              ? ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot ds = snapshot.data.docs[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Details(
+                                      detail: ds["Detail"],
+                                      name: ds["Name"],
+                                      price: ds["Price"],
+                                      image: ds["Image"],
+                                    )));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        child: Material(
+                          elevation: 5.0,
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.network(
+                                    ds["Image"],
+                                    height: 145,
+                                    width: 350,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  ds["Name"],
+                                  style: AppWidget.semiBooldTextFeildStyle(),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  ds["Detail"],
+                                  style: AppWidget.LightTextFeildStyle(),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "\$${ds["Price"]}",
+                                  style: AppWidget.semiBooldTextFeildStyle(),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                      SizedBox(height: 5,),
-                      Text(
-                        ds["Name"],
-                        style: AppWidget.semiBooldTextFeildStyle(),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        ds["Detail"],
-                        style: AppWidget.LightTextFeildStyle(),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "\$${ds["Price"]}",
-                        style: AppWidget.semiBooldTextFeildStyle(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-              }):CircularProgressIndicator();
+                    );
+                  })
+              : CircularProgressIndicator();
         });
   }
 
@@ -102,111 +198,51 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        margin: EdgeInsets.only(top: 50.0, left: 20.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(
-              'Hello DOMIXI ',
-              style: AppWidget.boldTextFeildStyle(),
-            ),
-            Container(
-              margin: EdgeInsets.only(right: 20),
-              padding: EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                  color: Colors.black, borderRadius: BorderRadius.circular(8)),
-              child: Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
-            )
-          ]),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Delicious Food',
-            style: AppWidget.HeadlineTextFeildStyle(),
-          ),
-          Text(
-            'Discover and Get Great Food',
-            style: AppWidget.LightTextFeildStyle(),
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          showItem(),
-          SizedBox(height: 30),
-         Container(
-            height: 270,
-             child: allItems()),
-          SizedBox(height: 30),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                padding: EdgeInsets.all(5),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(89),
-                        child: Image.asset(
-                          "images/salad11.png",
-                          height: 120,
-                          width: 120,
-                          fit: BoxFit.cover,
-                        )),
-                    SizedBox(width: 20,),
-                    Column(
-                      children: [
-                        Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width / 2,
-                          child: Text(
-                            "Mediterranean Chickpea Salad",
-                            style: AppWidget.semiBooldTextFeildStyle(),
-                          ),
-                        ),
-                        SizedBox(height: 5,),
-                        Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width / 2,
-                          child: Text(
-                            "Honey good cheese",
-                            style: AppWidget.LightTextFeildStyle(),
-                          ),
-
-                        ),
-                        SizedBox(height: 5,),
-                        Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width / 2,
-                          child: Text(
-                            "\$28",
-                            style: AppWidget.semiBooldTextFeildStyle(),
-                          ),
-
-                        )
-                      ],
-                    )
-                  ],
+      body: SingleChildScrollView(
+        // Bao bọc toàn bộ trong SingleChildScrollView
+        child: Container(
+          margin: EdgeInsets.only(top: 50.0, left: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text(
+                  'Hello DOMIXI ',
+                  style: AppWidget.boldTextFeildStyle(),
                 ),
+                Container(
+                  margin: EdgeInsets.only(right: 20),
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white,
+                  ),
+                ),
+              ]),
+              SizedBox(height: 20),
+              Text(
+                'Delicious Food',
+                style: AppWidget.HeadlineTextFeildStyle(),
               ),
-            ),
+              Text(
+                'Discover and Get Great Food',
+                style: AppWidget.LightTextFeildStyle(),
+              ),
+              SizedBox(height: 20),
+              showItem(), // Các mục có thể cuộn theo chiều dọc
+              SizedBox(height: 30),
+              Container(
+                height: 270,
+                child: allItems(), // Danh sách các món ăn ngang
+              ),
+              SizedBox(height: 30),
+              allItemsVertically(), // Danh sách các món ăn dọc
+            ],
           ),
-        ]),
+        ),
       ),
     );
   }
@@ -216,11 +252,12 @@ class _HomeState extends State<Home> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTapUp: (TapUpDetails details) {
+          onTap: () async {
             icecream = true;
             pizza = false;
             salad = false;
             burger = false;
+            fooditemStream = await DatabaseMethods().getFoodItem("Ice-cream");
             setState(() {});
           },
           child: AnimatedContainer(
@@ -232,12 +269,12 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: icecream
                   ? [
-                BoxShadow(
-                  color: Colors.yellow.withOpacity(0.6),
-                  blurRadius: 15,
-                  spreadRadius: 5,
-                )
-              ]
+                      BoxShadow(
+                        color: Colors.yellow.withOpacity(0.6),
+                        blurRadius: 15,
+                        spreadRadius: 5,
+                      )
+                    ]
                   : [],
             ),
             child: Material(
@@ -255,11 +292,12 @@ class _HomeState extends State<Home> {
           ),
         ),
         GestureDetector(
-          onTapDown: (TapDownDetails) {
+          onTap: () async {
             icecream = false;
             pizza = false;
             salad = false;
             burger = true;
+            fooditemStream = await DatabaseMethods().getFoodItem("Burger");
             setState(() {});
           },
           child: AnimatedContainer(
@@ -271,12 +309,12 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: burger
                   ? [
-                BoxShadow(
-                  color: Colors.yellow.withOpacity(0.6),
-                  blurRadius: 15,
-                  spreadRadius: 5,
-                )
-              ]
+                      BoxShadow(
+                        color: Colors.yellow.withOpacity(0.6),
+                        blurRadius: 15,
+                        spreadRadius: 5,
+                      )
+                    ]
                   : [],
             ),
             child: Material(
@@ -294,11 +332,12 @@ class _HomeState extends State<Home> {
           ),
         ),
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             icecream = false;
             pizza = true;
             salad = false;
             burger = false;
+            fooditemStream = await DatabaseMethods().getFoodItem("Pizza");
             setState(() {});
           },
           child: AnimatedContainer(
@@ -310,12 +349,12 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: pizza
                   ? [
-                BoxShadow(
-                  color: Colors.yellow.withOpacity(0.6),
-                  blurRadius: 15,
-                  spreadRadius: 5,
-                )
-              ]
+                      BoxShadow(
+                        color: Colors.yellow.withOpacity(0.6),
+                        blurRadius: 15,
+                        spreadRadius: 5,
+                      )
+                    ]
                   : [],
             ),
             child: Material(
@@ -333,11 +372,12 @@ class _HomeState extends State<Home> {
           ),
         ),
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             icecream = false;
             pizza = false;
             salad = true;
             burger = false;
+            fooditemStream = await DatabaseMethods().getFoodItem("Salad");
             setState(() {});
           },
           child: AnimatedContainer(
@@ -349,12 +389,12 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: salad
                   ? [
-                BoxShadow(
-                  color: Colors.yellow.withOpacity(0.6),
-                  blurRadius: 15,
-                  spreadRadius: 5,
-                )
-              ]
+                      BoxShadow(
+                        color: Colors.yellow.withOpacity(0.6),
+                        blurRadius: 15,
+                        spreadRadius: 5,
+                      )
+                    ]
                   : [],
             ),
             child: Material(
@@ -368,18 +408,6 @@ class _HomeState extends State<Home> {
                   fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ),
-        ),
-        Material(
-          elevation: 5.0,
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            child: Image.asset(
-              "images/salad3.jpg",
-              height: 40,
-              width: 40,
-              fit: BoxFit.cover,
             ),
           ),
         ),

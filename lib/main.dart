@@ -7,6 +7,8 @@ import 'package:food_delivery_app_flutter/pages/forgotpassword.dart';
 import 'package:food_delivery_app_flutter/pages/home.dart';
 import 'package:food_delivery_app_flutter/pages/login.dart';
 import 'package:food_delivery_app_flutter/pages/onboard.dart';
+import 'package:food_delivery_app_flutter/pages/order.dart';
+import 'package:food_delivery_app_flutter/pages/profile.dart';
 import 'package:food_delivery_app_flutter/pages/signup.dart';
 import 'package:food_delivery_app_flutter/pages/wallet.dart';
 import 'package:food_delivery_app_flutter/widget/app_constants.dart';
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: Wallet(),
     );
   }
 }
